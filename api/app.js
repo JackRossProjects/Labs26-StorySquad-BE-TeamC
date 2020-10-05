@@ -4,6 +4,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const helmet = require('helmet');
+const cron = require('node-cron');
+const db = require('../data/db-config')
 //const swaggerUi = require('swagger-ui-express');
 //const swaggerJSDoc = require('swagger-jsdoc');
 //const jsdocConfig = require('../config/jsdoc');
@@ -82,6 +84,13 @@ app.use(function (err, req, res, next) {
     return res.json(errObject);
   }
   next(err);
+});
+
+cron.schedule('* * * * *', async function() {
+  var children = await db('Child');
+  for (var child in children) {
+    console.log(children[child])
+  }
 });
 
 module.exports = app;
