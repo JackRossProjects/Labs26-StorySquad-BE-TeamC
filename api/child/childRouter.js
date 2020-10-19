@@ -36,6 +36,16 @@ router.get('/', function (req, res) {
     });
 });
 
+router.get('/prog', (req, res) => {
+  Child.findAllMissionProg()
+  .then((prog) => {
+    res.status(200).json(prog)
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
+})
+
 //login endpoint for child
 router.post('/:id', authRequired, function (req, res) {
   const id = String(req.params.id);
@@ -259,7 +269,7 @@ router.post('/:id/mission/write', checkToken, async function (req, res) {
   });
 });
 
-router.post('/:id/mission/draw', checkToken, async function (req, res) {
+router.post('/:id/mission/draw', async function (req, res) {
   let child = await Child.findById(req.params.id);
 
   singleUpload(req, res, async function (err) {

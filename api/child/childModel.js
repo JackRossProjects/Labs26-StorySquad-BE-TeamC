@@ -4,6 +4,10 @@ const findAll = async () => {
   return await db('Child');
 };
 
+const findCompleteMission = async () => {
+  return await db('Mission_Progress').where('draw', true).select('child_id', 'mission_id');
+};
+
 const findById = async (id) => {
   return db('Child').where({ id }).first().select('*');
 };
@@ -139,6 +143,7 @@ const updateProgress = async (child_id, field) => {
 
 module.exports = {
   findAll,
+  findCompleteMission,
   findById,
   remove,
   getChildSubmissions,
